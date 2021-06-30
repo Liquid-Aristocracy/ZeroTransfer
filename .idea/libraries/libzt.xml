@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="libzt">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../zerotier/libzt/dist/linux-x64-jar-release/pkg/libzt-1.6.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
