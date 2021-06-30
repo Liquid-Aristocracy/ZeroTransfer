@@ -10,7 +10,7 @@ import org.apache.http.util.EntityUtils;
 import org.apache.http.client.methods.HttpGet;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import ZeroManager.nodeIP;
+import com.example.ZeroManager;
 
 public class ServerConn {
     private static String addr;
@@ -47,7 +47,7 @@ public class ServerConn {
 
     public void heartBeat()
     {
-        String url = this.addr + "/online?ip=" + nodeIP;
+        String url = this.addr + "/online?ip=" + ZeroManager.nodeIP;
 
         HttpClient client = new DefaultHttpClient();
         HttpGet request = new HttpGet(url);
