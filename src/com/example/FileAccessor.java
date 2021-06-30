@@ -2,7 +2,7 @@ package com.example;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
-import java.io.File;
+import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -10,7 +10,7 @@ public class FileAccessor {
 
     // 是不是要改成path?
     //TODO 文件发送功能放zeroconn里了
-    //private final Path fileSavingPath = Paths.get(System.getProperty("user.dir")); // working dir
+    private final Path fileSavingPath = Paths.get(System.getProperty("user.dir")); // working dir
 
     public File filePicker () {
         JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
@@ -30,9 +30,28 @@ public class FileAccessor {
 
     // TODO 没用这个，发送文件和接收文件我都用ZeroConn来搞了
     // TODO
-    /*public boolean fileSaver (String filename, byte[] filecontent) {
-
+    /*
+    public boolean fileSaver (String fileName, byte[] fileContent) {
+        String filePath = String.valueOf(fileSavingPath.resolve(fileName));
+        FileOutputStream fs = null;
+        try {
+            fs = new FileOutputStream(filePath, true);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            fs.write(fileContent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            fs.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return false;
-    }*/
+    }
+    */
+
 
 }
