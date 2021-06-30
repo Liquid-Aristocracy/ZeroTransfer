@@ -10,14 +10,14 @@ import java.util.Vector;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.DefaultHttpClient;
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.example.ZeroManager;
+import com.alibaba.fastjson.JSONObject;;
 
 public class ServerConn {
     private static String addr;
@@ -25,8 +25,13 @@ public class ServerConn {
     private final String USER_AGENT = "Mozilla/5.0";
     public void init()
     {
+<<<<<<< HEAD
         ServerConn.addr = "server.zerotier"; // Change this later
         ServerConn.port = 8888;
+=======
+        this.addr = "server.zerotier"; // Change this later
+        this.port = 8888;
+>>>>>>> f5e94bc1a8da165c1a8bda3d8712fc8ca6b62a93
         /* init */
     }
     //设置服务器地址和端口值，连接服务器声明在线，被 ZeroManager 的 init()调用。

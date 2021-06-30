@@ -1,6 +1,7 @@
 package com.example;
 
 import java.io.File;
+import java.util.Iterator;
 import java.util.Vector;
 
 import com.zerotier.sockets.*;
@@ -71,7 +72,7 @@ public class ZeroManager {
         ZeroTierSocket socket = new ZeroTierSocket(remoteAddr, port);
 
         ZeroConn zc_send = new ZeroConn();
-        zc_send.assign(socket, true, file);
+        zc_send.assign(socket, true, file, nodeName);
         //加入conn列表(用集合，便于删除)
         connlist.add(zc_send);
         //connlist.add(zc_send);
@@ -119,54 +120,55 @@ public class ZeroManager {
                             File f = new File(System.getProperty("user.dir"));
 
                             ZeroConn zc_resc = new ZeroConn();
-                            zc_resc.assign(conn, false, f);
+                            zc_resc.assign(conn, false, f, nodeName);
                             zc_resc.run();
-                            if (zc_resc.getState() == 1)
-                                connlist.add(zc_resc);
-                            else if (zc_resc.getState() == 2)
-                                connlist.remove(zc_resc);
+                            connlist.add(zc_resc);
                         }
 
                     }).start();
 
             }
         });
+        manageConnList();
         return "TCP Server started.";
-
     }
 
         // TODO 这个方法run一个管理connlist的thread，怎么样这样就有两个thread可以一起run了
         // TODO 没明白
-        public void manageConnList(ZeroConn zc){
-            int state = zc.getState();
-            new Thread(() -> {
-                if (state == 1)
-                    connlist.add(zc);
-                else if (state == 2)
-                    connlist.remove(zc);
-
-                // conn 里面应该要有当前state这样的变量，还有传输的文件名这种变量
-            }).start();
-        }
-
-        public Vector<String> getConnListAsVector() {
-            // 这个应该是让View获取conn列表然后显示的
-            Vector<String> connData = new Vector<>();
-
-            // 以在线用户的 remoteAddr 作为传输文件列表展示的标识
-            for (ZeroConn zeroConn : connlist) {
-                connData.add(
-                        "RemoteAddr:"+zeroConn.conn.getRemoteAddress().toString()
-                        +"fileName:"+zeroConn.getFilename()
-                );
+    public void manageConnList(){
+        new Thread(() -> {
+            while (true) {
+                connlist.forEach((conn) -> {
+                    int state = conn.getState();
+                    if (state == 2)
+                        connlist.remove(conn);
+                });
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-            // TODO 传输文件速率，这个待会搞
-            //long start=System.currentTimeMillis();
-            //long end=System.currentTimeMillis();
-            //System.out.println("传输时间"+(end-start)+"毫秒");
-            // TODO 这个是干啥用的？
-            connData.add("filename 2mb/4mb");
+        }).start();
+    }
 
-            return connData;
+    public Vector<String> getConnListAsVector() {
+        // 这个应该是让View获取conn列表然后显示的
+        Vector<String> connData = new Vector<>();
+        // 以在线用户的 remoteAddr 作为传输文件列表展示的标识
+        for (ZeroConn zeroConn : connlist) {
+            connData.add(
+                    "RemoteAddr:"+zeroConn.conn.getRemoteAddress().toString()
+                            +"fileName:"+zeroConn.getFilename()
+            );
         }
+        // TODO 传输文件速率，这个待会搞
+        //long start=System.currentTimeMillis();
+        //long end=System.currentTimeMillis();
+        //System.out.println("传输时间"+(end-start)+"毫秒");
+        // TODO 这个是干啥用的？
+        connData.add("filename 2mb/4mb");
+
+        return connData;
+    }
 }
