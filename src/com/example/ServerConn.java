@@ -6,19 +6,19 @@ import java.util.Arrays;
 import java.util.Vector;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.apache.http.client.methods.HttpGet;
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.example.ZeroManager;
+import com.alibaba.fastjson.JSONObject;;
 
 public class ServerConn {
     private static String addr;
     private static int port;
     public void init()
     {
-        this.addr = "server.zerotier" // Change this later
-        this.port = 8888
+        this.addr = "server.zerotier"; // Change this later
+        this.port = 8888;
         /* init */
     }
     //设置服务器地址和端口值，连接服务器声明在线，被 ZeroManager 的 init()调用。

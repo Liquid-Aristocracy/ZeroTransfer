@@ -4,6 +4,9 @@
       <root url="jar://$PROJECT_DIR$/../../zerotier/libzt/dist/linux-x64-jar-release/pkg/libzt-1.6.0.jar!/" />
     </CLASSES>
     <JAVADOC />
+    <NATIVE>
+      <root url="file://$PROJECT_DIR$/../../zerotier/libzt/dist/linux-x64-jar-release/pkg/libzt-1.6.0" />
+    </NATIVE>
     <SOURCES />
   </library>
 </component>
