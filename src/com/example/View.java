@@ -14,11 +14,12 @@ public class View extends JFrame {
     private FileAccessor fileAccessor;
     private ZeroManager zeroManager;
     private ServerConn  serverConn;
+    private boolean finishedInit;
 
     public View() throws IOException {
         setTitle("ZeroTransfer");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100,100,400,200);
+        setBounds(400,200,1000,600);
         JPanel contentPane=new JPanel();
         contentPane.setBorder(new EmptyBorder(5,5,5,5));
         contentPane.setLayout(new BorderLayout(0,0));
@@ -46,17 +47,24 @@ public class View extends JFrame {
         contentPane.add(connPane, BorderLayout.CENTER);
         connPane.setViewportView(currentConnList);
 
-        String inputname;
-
-        zeroManager = new ZeroManager(inputname);
+        zeroManager = new ZeroManager();
+        finishedInit = false;
         fileAccessor = new FileAccessor();
         serverConn = new ServerConn();
 
-        zeroManager.init();
-        zeroManager.startListener();
+        LoginWindow login = new LoginWindow(this);
+        login.setVisible(true);
+        if (!finishedInit) {
+            System.exit(0);
+        }
 
         //更新
         updateWindow();
+    }
+
+    public void init () {
+
+
     }
 
     private void updateWindow(){
@@ -95,6 +103,26 @@ public class View extends JFrame {
                 zeroManager.newConn(remoteIP, port, fileSend);
             }
         }
+    }
+
+    public void setZeroNodeName (String name) {
+        zeroManager.setNodeName(name);
+    }
+
+    public String zmInit () {
+        return zeroManager.init();
+    }
+
+    public String zmStartListener () {
+        return zeroManager.startListener();
+    }
+
+    public void finishInit () {
+        finishedInit = true;
+    }
+
+    public boolean getFinishInit () {
+        return finishedInit;
     }
 
     // TODO 这函数哪里用到了

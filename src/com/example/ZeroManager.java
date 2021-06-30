@@ -1,14 +1,11 @@
 package com.example;
 
 import java.io.File;
-import java.nio.file.Paths;
-import java.util.HashSet;
 import java.util.Vector;
 
 import com.zerotier.sockets.*;
 
 import javax.swing.*;
-import java.nio.file.Path;
 
 import java.lang.Thread;
 import java.io.IOException;
@@ -21,7 +18,7 @@ public class ZeroManager {
 
     //zerotier虚拟局域网的标识a09acf02333322cc
     long networkId;
-    public ZeroManager(String nodeName)
+    public ZeroManager()
     {
         networkId = 0xa09acf02333322ccL;
     }
@@ -36,7 +33,7 @@ public class ZeroManager {
     //public ZeroConn[] connlist;
     Vector<ZeroConn> connlist = new Vector<>();
 
-    public void init() {
+    public String init() {
 
         ZeroTierNode node = new ZeroTierNode();
         //存储身份标识
@@ -61,14 +58,11 @@ public class ZeroManager {
 
         nodeIP = node.getIPv4Address(networkId).getHostAddress();
 
-        //System.out.println("===== 已加入 zerotier 虚拟网 ====");
-        //System.out.println("The node is online. ");
-        //System.out.println("Node ID: " + nodeId);
-        //System.out.println("IP address: " + nodeIP);
-        //JOptionPane.showMessageDialog(null,"You have joined the VLAN! "+
-        //                '\n'+"Your Node ID:"+nodeId +
-        //                '\n'+"Your Node IP:"+nodeIP
-        //        );
+        return "You have joined the VLAN! \nYour Node ID:" + nodeId + "\nYour Node IP:"+ nodeIP + "\n\n";
+    }
+
+    public void setNodeName (String name) {
+        nodeName = name;
     }
 
     //用户想发送一个文件的时候调用，会在 connlist 中增加一个连接，view 层可以显示这个连接的状态、文件传输速率等等。
@@ -91,7 +85,7 @@ public class ZeroManager {
 
     // 就不单独把一整个类extend thread了，这样开thread也行
     // 这个方法run一个监听服务器的thread，跟原来的run一样，run不要了写到这里
-    public void startListener()  {
+    public String startListener()  {
         //调用ServerConn类的init函数初始化服务器
         new Thread(() -> {
             ServerConn sc = new ServerConn();
@@ -137,6 +131,7 @@ public class ZeroManager {
 
             }
         });
+        return "TCP Server started.";
 
     }
 
