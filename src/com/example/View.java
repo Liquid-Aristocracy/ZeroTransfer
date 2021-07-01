@@ -72,7 +72,12 @@ public class View extends JFrame {
             Vector<String> peerData;
             //peerData.add("123.45.67.8");
             //peerData.add("123.45.67.9");
-            peerData = serverConn.getOnlineNodeList();
+            try {
+                peerData = serverConn.getOnlineNodeList();
+            } catch (IOException e) {
+                e.printStackTrace();
+                peerData = null;
+            }
             while (true) {
                 onlinePeerList.setListData(peerData);
                 // 连接服务器获取在线用户列表并且刷新

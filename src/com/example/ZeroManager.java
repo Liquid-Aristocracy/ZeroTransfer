@@ -16,6 +16,7 @@ public class ZeroManager {
     String nodeIP;
     String nodeName;
     String fileName;
+    ServerConn serverConn;
 
     //zerotier虚拟局域网的标识a09acf02333322cc
     long networkId;
@@ -59,6 +60,9 @@ public class ZeroManager {
 
         nodeIP = node.getIPv4Address(networkId).getHostAddress();
 
+        serverConn = new ServerConn();
+        serverConn.init(nodeIP, nodeName);
+
         return "You have joined the VLAN! \nYour Node ID:" + nodeId + "\nYour Node IP:"+ nodeIP + "\n\n";
     }
 
@@ -89,8 +93,6 @@ public class ZeroManager {
     public String startListener()  {
         //调用ServerConn类的init函数初始化服务器
         new Thread(() -> {
-            ServerConn sc = new ServerConn();
-            sc.init();
 
             try {
                 listener = new ZeroTierServerSocket(9999);
