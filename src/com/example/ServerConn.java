@@ -41,7 +41,7 @@ public class ServerConn {
     {
         String url = ServerConn.addr + "/userList";
 
-        HttpClient client = new DefaultHttpClient();
+        HttpClient client = HttpClientBuilder.create().build();
         HttpGet request = new HttpGet(url);
 
         //添加请求头
@@ -63,7 +63,7 @@ public class ServerConn {
     {
         new Thread(() -> {
             String url = ServerConn.addr + "/online";
-            HttpClient client = new DefaultHttpClient();
+            HttpClient client = HttpClientBuilder.create().build();
             HttpGet request = new HttpGet();
             URI uri = null;
             try {
